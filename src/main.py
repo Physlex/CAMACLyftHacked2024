@@ -7,6 +7,8 @@ import uvicorn
 
 from models import User
 
+from pathlib import Path
+
 app = FastAPI()
 
 ### API
@@ -18,7 +20,12 @@ app.mount("/static/js", StaticFiles(directory="static/js"), name="static/js")
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
-    pass
+    path = Path("templates/index.html")
+    html: str = ""
+    with open(path, 'r') as file:
+        html = file.read()
+
+    return HTMLResponse(html)
 
 @app.get("/download")
 async def download():
