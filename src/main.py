@@ -11,10 +11,10 @@ app = FastAPI()
 
 ### API
 
-@app.mount("/templates", StaticFiles(directory="/templates"), name="/templates")
-@app.mount("/static/css", StaticFiles(directory="/static/css"), name="/static/css")
-@app.mount("/static/data", StaticFiles(directory="/static/data", name="/static/data"))
-@app.mount("/static/js", StaticFiles(directory="/static/js"), name="/static/js")
+app.mount("/templates", StaticFiles(directory="templates"), name="templates")
+app.mount("/static/css", StaticFiles(directory="static/css"), name="static/css")
+app.mount("/static/data", StaticFiles(directory="static/data"), name="static/data")
+app.mount("/static/js", StaticFiles(directory="static/js"), name="static/js")
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
