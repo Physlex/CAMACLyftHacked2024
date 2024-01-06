@@ -10,5 +10,7 @@ button.addEventListener("click", async () => {
     if (response.ok) {
         let data = await response.json();
         console.log(data);
+    }  else {
+        console.error('Failed to fetch data:', response.status, response.statusText);
     }
 });
