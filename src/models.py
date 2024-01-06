@@ -56,19 +56,3 @@ class User():
         
         with open('data.json', 'w') as file:
             json.dump(array, file, indent = 2)
-            
-            
-def main():
-    test = User(1)
-    test.createUser()
-    test.download(1,1)
-    test.download(1,2)
-    
-    #test = User(2)
-    #test.createUser()
-    #test.download(2,1)
-    #test.download(2,2)
-    
-    test.deleteUser(1)
-    
-main()
