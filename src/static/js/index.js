@@ -6,15 +6,9 @@ const button = document.querySelector('#test-button');
 
 // Add a click event listener to the button
 button.addEventListener("click", async () => {
-    try {
-        let response = await fetch(url + '/download');
-        if (response.ok) {
-            let data = await response.json();
-            console.log(data);  // TODO: DO SOMETHING
-        } else {
-            throw(error);
-        }
-    } catch (error) {
-        console.error('Error fetching data:', error);
+    let response = await fetch(url);
+    if (response.ok) {
+        let data = await response.json();
+        console.log(data);
     }
 });
