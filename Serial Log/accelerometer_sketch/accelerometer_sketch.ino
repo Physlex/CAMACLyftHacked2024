@@ -139,6 +139,22 @@ void loop() {
     mpu.dmpGetAccel(&sensor_accel_vec, fifo_buffer);
     mpu.dmpGetLinearAccel(&real_accel_vec, &sensor_accel_vec, &gravity_vec);
   }
+
+  // Print gravity
+  Serial.print(gravity_vec[0]); Serial.print('\t');
+  Serial.print(gravity_vec[1]); Serial.print('\t');
+  Serial.print(gravity_vec[2]); Serial.print('\t');
+
+  // Print Yaw Pitch and Roll
+  Serial.print(ypr_vec[0]); Serial.print('\t');
+  Serial.print(ypr_vec[1]); Serial.print('\t');
+  Serial.print(ypr_vec[2]); Serial.print('\t');
+
+  // Print acceleration vector
+  Serial.print(real_accel_vec.x); Serial.print('t');
+  Serial.print(real_accel_vec.y); Serial.print('t');
+  Serial.print(real_accel_vec.z); Serial.print('t');
+  
   // getMotion(accel_buffer, BUFFER_SIZE);
   // normalize(accel_buffer, BUFFER_SIZE);
   // printMotion(accel_buffer, BUFFER_SIZE);
