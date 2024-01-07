@@ -32,7 +32,16 @@ async def download():
     """
         TODO: Takes a userID and returns it's associated streamed data
     """
-    return JSONResponse([])
+    userID = 0
+    new_user = User(userID)
+    new_user.createUser()
+
+    new_data = [0, 0, 1]
+    new_user.upload(new_data)
+    data = new_user.download()
+
+    new_user.deleteUser()
+    return JSONResponse(data)
 
 
 
