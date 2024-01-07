@@ -2,7 +2,6 @@ from fastapi import WebSocket
 
 class SocketMan():
     def __init__(self) -> None:
-        self.socket = WebSocket()
         pass
 
     async def connect(self, websocket: WebSocket) -> None:
@@ -20,9 +19,11 @@ class SocketMan():
         await self.socket.close()
         pass
 
-    async def send_acceleration(self, data) -> None:
+    async def send_acceleration(self, serial_port) -> None:
         """
             TODO: Get acceleration data from arduino
         """
-        self.socket.send_json("""SOME DATA""")
+        await self.socket.send_json("""SOME DATA""")
         pass
+
+    socket: WebSocket

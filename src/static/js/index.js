@@ -29,7 +29,7 @@ document.querySelector("#username-form-btn").addEventListener("submit", async (e
 
 /// WEBSOCKET
 
-const socket = new WebSocket("ws://localhost:8000/connect");
+const socket = new WebSocket("ws://localhost:8080/connect");
 
 socket.addEventListener("open", (event) => {
 });

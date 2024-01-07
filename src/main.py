@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -9,11 +9,12 @@ from models import User
 from socketManager import SocketMan
 
 from pathlib import Path
+from serial import Serial
 
 ### GLOBALS
 
 app = FastAPI()
-
+server_socket = SocketMan()
 
 ### API
 
@@ -53,7 +54,14 @@ async def authenticate(userID):
 
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
-    await websocket.accept()
+    await server_socket.connect(websocket)
+    with Serial(device="") as serial_port:
+        try:
+            while True:
+                await server_socket.send_acceleration(serial_port)
+        except WebSocketDisconnect:
+            await server_socket.disconnect()
+    pass
 
 
 ## MAIN
