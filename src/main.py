@@ -62,7 +62,7 @@ async def connect(websocket: WebSocket):
     arduinoPort = "COM6"
 
     await server_socket.connect(websocket)
-    with Serial(device=arduinoPort) as serial_port:
+    with Serial(port=arduinoPort) as serial_port:
         try:
             while True:
                 await asyncio.sleep(0.1)

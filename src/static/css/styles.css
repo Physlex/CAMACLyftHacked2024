@@ -1,15 +1,7 @@
-body {
-    padding: 20px;
-    text-align: center;
+#accel-chart-container {
+    padding: 0px 40px 10px 40px;
 }
 
-#username-box {
-    width: 300px;
-    margin: 50px auto;
-    text-align: center;
-}
-
-#myChart {
-    display: block;
-    margin: 0 auto;
+#gyro-chart-container {
+    padding: 0px 40px 10px 40px;
 }
