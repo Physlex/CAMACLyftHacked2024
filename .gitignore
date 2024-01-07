@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+arduino_communicate/saves
 
 # C extensions
 *.so

@@ -3,7 +3,7 @@
 
 # Author: Diego Herranz
 
-# Cameron's Nano Port: "/dev/cu.usbserial-14140"
+# Cameron's Nano Port: "/dev/cu.usbserial-141401"
 
 # Run: "python serial_logger.py -d {port}"
 
@@ -35,7 +35,7 @@ ys = []
 
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-d", "--device", help="device to read from", default="/dev/ttyUSB0")
+parser.add_argument("-d", "--device", help="device to read from", default="/dev/cu.usbmodem141401")
 parser.add_argument("-s", "--speed", help="speed in bps", default=9600, type=int)
 args = parser.parse_args()
 
