@@ -12,10 +12,12 @@ from socketManager import SocketMan
 from pathlib import Path
 from serial import Serial
 
+
 ### GLOBALS
 
 app = FastAPI()
 server_socket = SocketMan()
+
 
 ### API
 
@@ -56,7 +58,8 @@ async def authenticate(userID):
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
     print("work!")
-    arduinoPort = "/dev/cu.usbmodem141401"
+    # arduinoPort = "/dev/cu.usbmodem141401"
+    arduinoPort = "COM6"
 
     await server_socket.connect(websocket)
     with Serial(device=arduinoPort) as serial_port:
