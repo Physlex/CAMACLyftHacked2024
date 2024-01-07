@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+import asyncio
 import uvicorn
 
 from models import User
@@ -58,6 +59,7 @@ async def connect(websocket: WebSocket):
     with Serial() as serial_port:
         try:
             while True:
+                await asyncio.sleep(0.1)
                 await server_socket.send_acceleration(serial_port)
         except WebSocketDisconnect:
             await server_socket.disconnect()

@@ -28,48 +28,46 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    /// CHART
+
+    data = {
+        datasets: [{
+            label: "Acceleration",
+            data: {'X': -2, 'Y': 4, 'Z': 3}
+        }, {
+            label: "Rotational Velocity",
+            data: {'X': -2, 'Y': 4, 'Z': 3}
+        },],
+    };
+
+    options = {
+        responsive: false,
+        maintainAspectRatio: true   
+    }
+
+    const ctx = document.querySelector('#myChart').getContext('2d');
+    let mpu_chart = new Chart(ctx, {type: 'bar', data: data, options: options});
+
+
     /// WEBSOCKET
 
     const socket = new WebSocket("ws://localhost:8000/connect");
 
     socket.addEventListener("open", (event) => {
-        console.log("Connection Established");
+        console.log("Stream Connection Established To Server");
     });
 
     socket.addEventListener("message", (event) => {
-        console.log("Generic Message");
+        console.log("Message From Server: ", event.data);
+        
+        mpu_chart.update();
     });
 
     socket.addEventListener("error", (event) => {
-        console.error("Websocket Error: ", socket.error)
+        console.error("Websocket Error: ", event.data);
     });
 
     socket.addEventListener("close", (event) => {
-        console.log("Connection Ended");
+        console.log("Connection Ended To Server");
     });
-
-
-    /// CHART
-
-    data = {
-        labels: ['X', 'Y', 'Z'],
-        datasets: [{
-            label: 'Dataset 1',
-            borderColor: 'red',
-        }, {
-            label: 'Dataset 2',
-            borderColor: 'green',
-        }, {
-            label: 'Dataset 3',
-            borderColor: 'blue',
-        }]
-    };
-
-    options = {
-        responsive: true,
-        maintainAspectRatio: false
-    }
-
-    const ctx = document.querySelector('#myChart').getContext('2d');
-    let my_chart = new Chart(ctx, {type: 'bar', data: data, options: options});
 });
