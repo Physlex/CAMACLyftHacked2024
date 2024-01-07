@@ -41,13 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     options = {
-        responsive: false,
-        maintainAspectRatio: true   
+        responsive: true,
+        maintainAspectRatio: false,
     }
 
-    const ctx = document.querySelector('#myChart').getContext('2d');
+    let ctx = document.querySelector('#chart').getContext('2d');
     let mpu_chart = new Chart(ctx, {type: 'bar', data: data, options: options});
-
+    ctx.canvas.style.position = 'relative';
+    ctx.canvas.style.height = '60vh';
+    ctx.canvas.style.width = '80vw';
 
     /// WEBSOCKET
 
@@ -59,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     socket.addEventListener("message", (event) => {
         console.log("Message From Server: ", event.data);
-        
+ 
         mpu_chart.update();
     });
 
