@@ -32,9 +32,7 @@ document.querySelector("#username-form-btn").addEventListener("submit", async (e
 const socket = new WebSocket("ws://localhost:8000/connect");
 
 socket.addEventListener("open", (event) => {
-    console.log("Hello Server!");
 });
 
 socket.addEventListener("message", (event) => {
-    console.log("Message Thing");
 });

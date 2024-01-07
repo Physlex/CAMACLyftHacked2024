@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 
 from models import User
-from socketManager import SocketManager
+from socketManager import SocketMan
 
 from pathlib import Path
 
@@ -53,7 +53,7 @@ async def authenticate(userID):
 
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
-    websocket.accept()
+    await websocket.accept()
 
 
 ## MAIN
