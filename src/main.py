@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 import asyncio
 import uvicorn
+import os
 
 from models import User
 from socketManager import SocketMan
@@ -53,6 +54,16 @@ async def download():
 
 @app.post("/authenticate")
 async def authenticate(userID):
+    path = 'static/data/'
+    user = 'user' + str(userID) + '.json'
+    # list all files in that path and iterate through each file and find if they are indeed a file on that path
+    files = [file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
+
+    # if the user does not have a file a new one is created
+    if user not in files:
+        newUser = User(userID)
+        newUser.createUser()
+        
     return JSONResponse(True)
 
 @app.websocket("/connect")
