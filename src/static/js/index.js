@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    // usrDisplay = document.querySelector("#username-form-btn");
+
+
     /// CHART
 
     data = {
@@ -70,7 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     socket.addEventListener("message", (event) => {
         read = JSON.parse(event.data);
-        // console.log("Hi From Server: ", read);
+        console.log("Hi From Server: ", read);
+
+        if(read.usr) { // if this exists, the system just read an NFC. Set up user!
+            // console.log("======== NFC ========");
+            // console.log("hi");
+            // console.log("======== NFC ========");
+            // document.querySelector("#username-form-btn").innerHTML = read.usr;
+            document.querySelector("#usr").textContent = "Welcome, Cameron!";
+        }
 
         data.datasets[0].data = {"X": parseInt(read["ax"]), "Y": parseInt(read["ay"]), "Z": parseInt(read["az"])};
         data.datasets[1].data = {"X": parseInt(read["gx"]), "Y": parseInt(read["gy"]), "Z": parseInt(read["gz"])};

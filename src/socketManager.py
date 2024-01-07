@@ -48,12 +48,36 @@ class SocketMan():
             # print("aft", len(self.CurrentBuffer))
 
 
+            # Prevent errors
+            if(currRead == ""):
+                return
+
+
             # Filter current read, just focus on accelerometer logs (starts with "a:")
             if("a" == currRead.split(":", 1)[0]):
                 currRead = currRead.split(":", 1)[1]
-            else:
-                currRead = ''
-                return
+                await self.socket.send_json({
+                    'ax': int(currRead.split("\t")[0]),
+                    'ay': int(currRead.split("\t")[1]),
+                    'az': int(currRead.split("\t")[2]),
+                    'gx': int(currRead.split("\t")[3]),
+                    'gy': int(currRead.split("\t")[4]),
+                    'gz': int(currRead.split("\t")[5]),
+                })
+
+            # Filter current read, just focus on rfid logs (starts with "r:")
+            if("r" == currRead.split(":", 1)[0]):
+                currRead = currRead.split(":", 1)[1]
+                await self.socket.send_json({
+                    'usr': int(currRead),
+                })
+
+
+
+
+            # else:
+            #     currRead = ''
+            #     return
 
 
             # Print (not necessary, still here for debugging purposes)
@@ -63,27 +87,17 @@ class SocketMan():
             
             # Catch steaming errors (if something unexpected happens, drop the sample) 
             # reading = ""
-            
-            # try:
-            # reading = {
+
+            # self.SendBuffer[self.ActiveBuffer].append(reading)
+            # await self.socket.send_json(reading)
+            # await self.socket.send_json({
             #     'ax': int(currRead.split("\t")[0]),
             #     'ay': int(currRead.split("\t")[1]),
             #     'az': int(currRead.split("\t")[2]),
             #     'gx': int(currRead.split("\t")[3]),
             #     'gy': int(currRead.split("\t")[4]),
             #     'gz': int(currRead.split("\t")[5]),
-            # }
-
-            # self.SendBuffer[self.ActiveBuffer].append(reading)
-            # await self.socket.send_json(reading)
-            await self.socket.send_json({
-                'ax': int(currRead.split("\t")[0]),
-                'ay': int(currRead.split("\t")[1]),
-                'az': int(currRead.split("\t")[2]),
-                'gx': int(currRead.split("\t")[3]),
-                'gy': int(currRead.split("\t")[4]),
-                'gz': int(currRead.split("\t")[5]),
-            })
+            # })
 
             # except KeyboardInterrupt:
             #     exit()
