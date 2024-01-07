@@ -1,59 +1,55 @@
 import json
+import os
+from pathlib import Path
 
 class User():
     def __init__(self, userID) -> None:
         self.userID = userID
-        self.filename = str(userID) + '.json'
-    
-    
-    def download(self, userID, data) -> None:
+        self.filename = Path('static/data/user' + str(userID) + '.json')
+
+    def upload(self, data) -> None:
         """
-        Access JSON and insert new data into existing data stream
-        
+            Access JSON and insert new data into existing data stream
         """
         with open(self.filename) as file:
-            array = []
-            jsonData = json.load(file)
-            
-            for i in jsonData:
-                array.append(i)
-                
-            for i in range(len(array)):
-                if array[i]["user"] == userID:
-                    array[i]['stream'].append(data)
-                    
-        with open(self.filename, 'w') as file:
-            json.dump(array, file, indent = 2)
-   
+            # Mutate the data
+            array = json.load(file)
+            new_data = array["stream"]
+            for element in data:
+                new_data.append(element)
+
+            # Upload the data to the json
+            array["stream"] = new_data
+            json_enc = json.dumps(array, indent = 2)
+            with open(self.filename, "w+") as file:
+                file.write(json_enc)
+
+    def download(self) -> None:
+        """
+            Access JSON and return stream data
+        """
+        data = []
+        with open(self.filename) as file:
+            array = json.load(file)
+            data = array["stream"]
+
+        return data
+
     def createUser(self) -> None:
         """
         Create a JSON file holding a user and null data in data stream
         """    
-        with open(self.filename, 'w') as file:
-            data = [{
-                "user": self.userID,
-                "stream": []
-            }]
-            
-            json.dump(data, file, indent = 2)
-            
-            
-    def deleteUser(self, userID) -> None:
+        data = {
+            "user": self.userID,
+            "stream": []
+        }
+
+        json_enc = json.dumps(data, indent = 2)
+        with open(self.filename, "w+") as file:
+            file.write(json_enc)
+
+    def deleteUser(self) -> None:
         """
         Delete a JSON file w/ associated user ID
         """
-        with open(self.filename) as file:
-            array = []
-            jsonData = json.load(file)
-            
-            for i in jsonData:
-                array.append(i)
-                
-                
-            for i in range(len(array)):
-                if array[i]['user'] == userID:
-                    array.pop(i)
-                    break
-        
-        with open(self.filename, 'w') as file:
-            json.dump(array, file, indent = 2)
+        os.remove(self.filename)
