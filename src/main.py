@@ -54,8 +54,11 @@ async def authenticate(userID):
 
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
+    print("work!")
+    arduinoPort = "/dev/cu.usbmodem141401"
+
     await server_socket.connect(websocket)
-    with Serial(device="") as serial_port:
+    with Serial(device=arduinoPort) as serial_port:
         try:
             while True:
                 await server_socket.send_acceleration(serial_port)
