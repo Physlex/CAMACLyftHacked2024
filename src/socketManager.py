@@ -21,6 +21,7 @@ class SocketManager():
 
     async def send_acceleration(self, data) -> None:
         """
-            TODO: Send acceleration data
+            TODO: Get acceleration data from arduino
         """
+        self.websocket.send_json("""SOME DATA""")
         pass
