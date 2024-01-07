@@ -9,6 +9,7 @@ from models import User
 from socketManager import SocketMan
 
 from pathlib import Path
+from serial import Serial
 
 ### GLOBALS
 
@@ -54,12 +55,14 @@ async def authenticate(userID):
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
     await server_socket.connect(websocket)
-    try:
-        while True:
-            await server_socket.send_acceleration()
-    except WebSocketDisconnect:
-        await server_socket.disconnect()
+    with Serial(device="") as serial_port:
+        try:
+            while True:
+                await server_socket.send_acceleration(serial_port)
+        except WebSocketDisconnect:
+            await server_socket.disconnect()
     pass
+
 
 ## MAIN
 

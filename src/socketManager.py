@@ -19,11 +19,11 @@ class SocketMan():
         await self.socket.close()
         pass
 
-    async def send_acceleration(self) -> None:
+    async def send_acceleration(self, serial_port) -> None:
         """
             TODO: Get acceleration data from arduino
         """
-        self.socket.send_json("""SOME DATA""")
+        await self.socket.send_json("""SOME DATA""")
         pass
 
     socket: WebSocket
