@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+import asyncio
 import uvicorn
 
 from models import User
@@ -55,9 +56,10 @@ async def authenticate(userID):
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
     await server_socket.connect(websocket)
-    with Serial(device="") as serial_port:
+    with Serial() as serial_port:
         try:
             while True:
+                await asyncio.sleep(0.1)
                 await server_socket.send_acceleration(serial_port)
         except WebSocketDisconnect:
             await server_socket.disconnect()

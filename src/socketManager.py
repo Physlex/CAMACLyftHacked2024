@@ -23,7 +23,7 @@ class SocketMan():
         """
             TODO: Get acceleration data from arduino
         """
-        await self.socket.send_json("""SOME DATA""")
+        await self.socket.send_json({"fudge": [0, 0]})
         pass
 
     socket: WebSocket
