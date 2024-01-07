@@ -11,7 +11,7 @@ document.querySelector("#connection-btn").addEventListener("click", async (event
     }
 });
 
-document.querySelector("#username-form").addEventListener("submit", async (event) => {
+document.querySelector("#username-form-btn").addEventListener("submit", async (event) => {
     let userName = document.querySelector('#username-form').value;
     let response = await fetch(url + "/authenticate", {
         method: 'POST',
