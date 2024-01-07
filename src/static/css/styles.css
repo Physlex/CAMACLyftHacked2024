@@ -1,2 +1,7 @@
-body {
+#accel-chart-container {
+    padding: 0px 40px 10px 40px;
+}
+
+#gyro-chart-container {
+    padding: 0px 40px 10px 40px;
 }

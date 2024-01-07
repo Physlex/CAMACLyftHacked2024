@@ -5,7 +5,6 @@ from fastapi.staticfiles import StaticFiles
 
 import asyncio
 import uvicorn
-import os
 
 from models import User
 from socketManager import SocketMan
@@ -54,28 +53,18 @@ async def download():
 
 @app.post("/authenticate")
 async def authenticate(userID):
-    path = 'static/data/'
-    user = 'user' + str(userID) + '.json'
-    # list all files in that path and iterate through each file and find if they are indeed a file on that path
-    files = [file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
+    return JSONResponse(True)
 
-    # if the user does not have a file a new one is created
-    if user not in files:
-        newUser = User(userID)
-        newUser.createUser()
-    pass
 
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
-    print("work!")
-    # arduinoPort = "/dev/cu.usbmodem141401"
-    arduinoPort = "COM6"
+    arduinoPort = "/dev/cu.usbmodem141401"
 
     await server_socket.connect(websocket)
     with Serial(port=arduinoPort) as serial_port:
         try:
             while True:
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.01)
                 await server_socket.send_acceleration(serial_port)
         except WebSocketDisconnect:
             await server_socket.disconnect()

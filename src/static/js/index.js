@@ -28,6 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    // usrDisplay = document.querySelector("#username-form-btn");
+
+
+    setTimeout(() => {
+        document.querySelector("#recalibrating").textContent = "";
+    }, 5000)
+
     /// CHART
 
     data = {
@@ -43,6 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
     options = {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+            y: {
+                // the data minimum used for determining the ticks is Math.min(dataMin, suggestedMin)
+                suggestedMin: -50000,
+        
+                // the data maximum used for determining the ticks is Math.max(dataMax, suggestedMax)
+                suggestedMax: 50000,
+            }
+        }
     }
 
     let ctx = document.querySelector('#chart').getContext('2d');
@@ -60,7 +76,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     socket.addEventListener("message", (event) => {
-        console.log("Message From Server: ", event.data);
+        read = JSON.parse(event.data);
+        console.log("Hi From Server: ", read);
+
+        if(read.usr) { // if this exists, the system just read an NFC. Set up user!
+            // console.log("======== NFC ========");
+            // console.log("hi");
+            // console.log("======== NFC ========");
+            // document.querySelector("#username-form-btn").innerHTML = read.usr;
+            document.querySelector("#usr").textContent = "Welcome, Cameron!";
+        }
+
+        data.datasets[0].data = {"X": parseInt(read["ax"]), "Y": parseInt(read["ay"]), "Z": parseInt(read["az"])};
+        data.datasets[1].data = {"X": parseInt(read["gx"]), "Y": parseInt(read["gy"]), "Z": parseInt(read["gz"])};
+
+
+
+        // console.log(event.data["ax"]);
  
         mpu_chart.update();
     });
