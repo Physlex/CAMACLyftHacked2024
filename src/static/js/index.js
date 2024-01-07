@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // usrDisplay = document.querySelector("#username-form-btn");
 
 
+    setTimeout(() => {
+        document.querySelector("#recalibrating").textContent = "";
+    }, 5000)
+
     /// CHART
 
     data = {
