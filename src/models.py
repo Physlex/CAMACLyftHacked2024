@@ -3,6 +3,7 @@ import json
 class User():
     def __init__(self, userID) -> None:
         self.userID = userID
+        self.filename = str(userID) + '.json'
     
     
     def download(self, userID, data) -> None:
@@ -10,7 +11,7 @@ class User():
         Access JSON and insert new data into existing data stream
         
         """
-        with open('data.json') as file:
+        with open(self.filename) as file:
             array = []
             jsonData = json.load(file)
             
@@ -21,14 +22,14 @@ class User():
                 if array[i]["user"] == userID:
                     array[i]['stream'].append(data)
                     
-        with open('data.json', 'w') as file:
+        with open(self.filename, 'w') as file:
             json.dump(array, file, indent = 2)
    
     def createUser(self) -> None:
         """
         Create a JSON file holding a user and null data in data stream
         """    
-        with open('data.json', 'w') as file:
+        with open(self.filename, 'w') as file:
             data = [{
                 "user": self.userID,
                 "stream": []
@@ -41,7 +42,7 @@ class User():
         """
         Delete a JSON file w/ associated user ID
         """
-        with open('data.json') as file:
+        with open(self.filename) as file:
             array = []
             jsonData = json.load(file)
             
@@ -54,5 +55,5 @@ class User():
                     array.pop(i)
                     break
         
-        with open('data.json', 'w') as file:
+        with open(self.filename, 'w') as file:
             json.dump(array, file, indent = 2)
