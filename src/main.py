@@ -53,16 +53,16 @@ async def download():
 async def authenticate(userID):
     return JSONResponse(True)
 
+
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
-    print("work!")
-    arduinoPort = "/dev/cu.usbmodem141301"
+    arduinoPort = "/dev/cu.usbmodem141401"
 
     await server_socket.connect(websocket)
     with Serial(arduinoPort) as serial_port:
         try:
             while True:
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.01)
                 await server_socket.send_acceleration(serial_port)
         except WebSocketDisconnect:
             await server_socket.disconnect()
