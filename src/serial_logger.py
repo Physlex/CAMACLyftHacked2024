@@ -1,11 +1,6 @@
 #!/usr/bin/env python
-# Log data from serial port
 
-# Author: Diego Herranz
-
-# Cameron's Nano Port: "/dev/cu.usbserial-141401"
-
-# Run: "python serial_logger.py -d {port}"
+# General Usage: "python serial_logger.py -d {port} -s {baud_rate}"
 
 
 import argparse
@@ -13,30 +8,23 @@ import serial
 import datetime
 import time
 import os
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-# fig = plt.figure(figsize = (10, 5))
-# plt.xlabel("Courses offered")
-# plt.ylabel("No. of students enrolled")
-# plt.title("Students enrolled in different courses")
 
 SaveFile = "saves"
 CurrentBuffer = ""
 ShowPlot = False
+DefaultPort = "/dev/cu.usbmodem141401"
 
-# Live plotting
+
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 xs = []
 ys = []
-
-
-
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-d", "--device", help="device to read from", default="/dev/cu.usbmodem141401")
+parser.add_argument("-d", "--device", help="device to read from", default=DefaultPort)
 parser.add_argument("-s", "--speed", help="speed in bps", default=9600, type=int)
 args = parser.parse_args()
 
@@ -59,6 +47,7 @@ with serial.Serial(args.device, args.speed) as ser, open(outputFilePath, mode='w
                 except:
                     print("ERROR: Failed to decode bytestring, skipping.")
 
+
             if("\n" in CurrentBuffer): # Endline character, ready to flush
                 # PRINT AND FLUSH #
                 errorString = "ERROR: BUFFER SIZE " + str(len(CurrentBuffer)) + ", FALLING BEHIND | " if len(CurrentBuffer) > 500 else ""
@@ -66,6 +55,18 @@ with serial.Serial(args.device, args.speed) as ser, open(outputFilePath, mode='w
                 CurrentBuffer = CurrentBuffer.split("\n", 1)[1]
                 print(currRead)
                 # PRINT AND FLUSH #
+
+
+
+                # SEND READING #
+                data = {
+                    'ax': int(currRead.split("\t")[0]),
+                    'ay': int(currRead.split("\t")[1]),
+                    'az': int(currRead.split("\t")[2]),
+                }
+                # SEND READING #
+
+
 
                 # SHOW PLOT #
                 if(ShowPlot and len(CurrentBuffer) < 100): # Skip plotting when we start falling behind, plotting is humgery
