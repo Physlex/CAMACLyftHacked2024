@@ -18,10 +18,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-fig = plt.figure(figsize = (10, 5))
-plt.xlabel("Courses offered")
-plt.ylabel("No. of students enrolled")
-plt.title("Students enrolled in different courses")
+# fig = plt.figure(figsize = (10, 5))
+# plt.xlabel("Courses offered")
+# plt.ylabel("No. of students enrolled")
+# plt.title("Students enrolled in different courses")
 
 SaveFile = "saves"
 CurrentBuffer = ""
@@ -31,7 +31,6 @@ fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 xs = []
 ys = []
-
 
 
 
@@ -73,26 +72,45 @@ with serial.Serial(args.device, args.speed) as ser, open(outputFilePath, mode='w
                     outputFile.flush()
                 except:
                     print("ERROR: Failed to decode bytestring, skipping.")
+
             if("\n" in CurrentBuffer): # Endline character, ready to flush
-                errorString = "ERROR: BUFFER SIZE" + str(len(CurrentBuffer)) + ", FALLING BEHIND" if len(CurrentBuffer) > 500 else ""
-                print(errorString + CurrentBuffer.split("\n", 1)[0], )
+                # PRINT AND FLUSH #
+                errorString = "ERROR: BUFFER SIZE " + str(len(CurrentBuffer)) + ", FALLING BEHIND | " if len(CurrentBuffer) > 500 else ""
+                currRead = errorString + CurrentBuffer.split("\n", 1)[0]
                 CurrentBuffer = CurrentBuffer.split("\n", 1)[1]
+                # print(currRead)
+                # PRINT AND FLUSH #
 
-                try:
-                    data = {'ax': np.random.random(), 'ay': np.random.random(), 'az': np.random.random(), 'gx': np.random.random(), 'gy': np.random.random(), 'gz': np.random.random()}
-                    courses = list(data.keys())
-                    values = list(data.values())
+                # SHOW PLOT #
+                if(len(CurrentBuffer) < 100): # Skip plotting when we start falling behind, plotting is humgery
+                    try:
+                        data = {
+                            'ax': int(currRead.split("\t")[0]),
+                            'ay': int(currRead.split("\t")[1]),
+                            'az': int(currRead.split("\t")[2]),
+                            'gx': int(currRead.split("\t")[3]),
+                            'gy': int(currRead.split("\t")[4]),
+                            'gz': int(currRead.split("\t")[5]),
+                        }
+                        courses = list(data.keys())
+                        values = list(data.values())
+
+                        # print(data)
+                        
+                        plt.clf()
+                        plt.bar(courses, values, color ='maroon', width = 0.4)
+
+                        ax = plt.gca()
+                        ax.set_ylim([-50000, 50000])
+                        plt.pause(0.05)
                     
-                    plt.clf()
-                    plt.bar(courses, values, color ='maroon', width = 0.4)
+                    except KeyboardInterrupt:
+                        print("\n\n== Terminating ==\n")
+                        break
 
-                    ax = plt.gca()
-                    ax.set_ylim([0, 1])
-                    plt.pause(0.05)
-                
-                except KeyboardInterrupt:
-                    print("\n\n== Terminating ==")
-                    break
+                    except:
+                        print("Plotting error")
+                # SHOW PLOT #
 
     except KeyboardInterrupt:
         print("Logging stopped")
