@@ -44,6 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 borderColor: 'blue',
                 backgroundColor: 'transparent',
             }]
+        },
+        options: {
+            responsive: false,  // Set to false to disable automatic resizing
+            maintainAspectRatio: false,  // Set to false to allow custom width and height
+            // other options...
         }
     });
 });

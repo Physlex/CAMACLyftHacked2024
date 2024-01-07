@@ -1,0 +1,15 @@
+body {
+    padding: 20px;
+    text-align: center;
+}
+
+#username-box {
+    width: 300px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+#myChart {
+    display: block;
+    margin: 0 auto;
+}
