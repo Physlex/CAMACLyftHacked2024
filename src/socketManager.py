@@ -4,12 +4,9 @@ from fastapi import WebSocket
 class SocketMan():
     def __init__(self) -> None:
         self.CurrentBuffer = ""
-<<<<<<< HEAD
         # self.SendBuffer = [[],[]]
         self.SendBuffer = []
         # self.ActiveBuffer = 0
-=======
->>>>>>> 6b0244a (added some stuff to stream to server, about to implement batching)
         pass
 
     async def connect(self, websocket: WebSocket) -> None:
@@ -46,13 +43,9 @@ class SocketMan():
 
             # Update and flush buffer
             currRead = self.CurrentBuffer.split("\n", 1)[0]
-<<<<<<< HEAD
             # print("b4", len(self.CurrentBuffer))
             self.CurrentBuffer = self.CurrentBuffer.split("\n", 1)[1]
             # print("aft", len(self.CurrentBuffer))
-=======
-            self.CurrentBuffer = self.CurrentBuffer.split("\n", 1)[1]
->>>>>>> 6b0244a (added some stuff to stream to server, about to implement batching)
 
 
             # Filter current read, just focus on accelerometer logs (starts with "a:")
@@ -60,7 +53,6 @@ class SocketMan():
                 currRead = currRead.split(":", 1)[1]
             else:
                 currRead = ''
-<<<<<<< HEAD
                 return
 
 
@@ -68,23 +60,8 @@ class SocketMan():
             # errorString = "ERROR: BUFFER SIZE IS " + str(len(self.CurrentBuffer)) + ", FALLING BEHIND | " if len(self.CurrentBuffer) > 500 else ""
             # print(errorString + currRead)
 
-
-
-=======
-
-
-            # Print (not necessary, still here for debugging purposes)
-            errorString = "ERROR: BUFFER SIZE IS " + str(len(self.CurrentBuffer)) + ", FALLING BEHIND | " if len(self.CurrentBuffer) > 500 else ""
-            print(errorString + currRead)
-
-
->>>>>>> 6b0244a (added some stuff to stream to server, about to implement batching)
-            # Prevent null error
-            if(currRead == ''):
-                return
             
-            # Catch steaming errors (if something unexpected happens, drop the sample)
-<<<<<<< HEAD
+            # Catch steaming errors (if something unexpected happens, drop the sample) 
             # reading = ""
             
             # try:
@@ -122,32 +99,21 @@ class SocketMan():
             #     print("oops")
 
         
-        # if(len(self.SendBuffer[self.ActiveBuffer]) >= 10):
-        #     # Send reading
-        #     print("SENDOING", self.SendBuffer)
-        #     await self.socket.send_json({"batched": self.SendBuffer[self.ActiveBuffer]})
+            # if(len(self.SendBuffer[self.ActiveBuffer]) >= 10):
+            #     # Send reading
+            #     print("SENDOING", self.SendBuffer)
+            #     await self.socket.send_json({"batched": self.SendBuffer[self.ActiveBuffer]})
 
-        #     # Swap buffers
-        #     nextBuffer = self.ActiveBuffer + 1
-        #     if(nextBuffer >= 2): nextBuffer = 0
-        #     self.SendBuffer[nextBuffer] = []
-        #     self.ActiveBuffer = nextBuffer
+            #     # Swap buffers
+            #     nextBuffer = self.ActiveBuffer + 1
+            #     if(nextBuffer >= 2): nextBuffer = 0
+            #     self.SendBuffer[nextBuffer] = []
+            #     self.ActiveBuffer = nextBuffer
 
-=======
-            reading = ""
-            
-            try:
-                reading = {
-                    'ax': int(currRead.split("\t")[0]),
-                    'ay': int(currRead.split("\t")[1]),
-                    'az': int(currRead.split("\t")[2]),
-                }
-
-                # Send reading
-                await self.socket.send_json(reading)
-            except:
-                print("oops")
->>>>>>> 6b0244a (added some stuff to stream to server, about to implement batching)
+            #     # Send reading
+            #     await self.socket.send_json(reading)
+            # except:
+            #     print("oops")
 
         pass
 
