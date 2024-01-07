@@ -63,8 +63,7 @@ async def authenticate(userID):
     if user not in files:
         newUser = User(userID)
         newUser.createUser()
-        
-    return JSONResponse(True)
+    pass
 
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
