@@ -52,7 +52,6 @@ class SocketMan():
                 'ay': int(currRead.split("\t")[1]),
                 'az': int(currRead.split("\t")[2]),
             })
-
         pass
 
     socket: WebSocket
