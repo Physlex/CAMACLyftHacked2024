@@ -12,10 +12,12 @@ from socketManager import SocketMan
 from pathlib import Path
 from serial import Serial
 
+
 ### GLOBALS
 
 app = FastAPI()
 server_socket = SocketMan()
+
 
 ### API
 
