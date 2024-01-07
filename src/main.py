@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -6,10 +6,14 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 
 from models import User
+from socketManager import SocketManager
 
 from pathlib import Path
 
+### GLOBALS
+
 app = FastAPI()
+
 
 ### API
 
@@ -44,8 +48,13 @@ async def download():
     return JSONResponse(data)
 
 @app.post("/authenticate")
-def authenticate(userID):
+async def authenticate(userID):
     return JSONResponse(True)
+
+@app.websocket("/connect")
+async def connect(websocket: WebSocket):
+    websocket.accept()
+
 
 ## MAIN
 
