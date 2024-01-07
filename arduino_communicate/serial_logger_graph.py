@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt
 
 SaveFile = "saves"
 CurrentBuffer = ""
+ShowPlot = False
 
 # Live plotting
 fig = plt.figure()
@@ -44,22 +45,7 @@ outputFilePath = os.path.join(os.path.dirname(__file__), SaveFile,
 
 with serial.Serial(args.device, args.speed) as ser, open(outputFilePath, mode='wb') as outputFile:
     print("Logging started. Ctrl-C to stop.") 
-    # while True:
-    #     try:
-    #         data = {'C': np.random.random(), 'C++': np.random.random(), 'Java': np.random.random(), 'Python': np.random.random()}
-    #         courses = list(data.keys())
-    #         values = list(data.values())
-            
-    #         plt.clf()
-    #         plt.bar(courses, values, color ='maroon', width = 0.4)
 
-    #         ax = plt.gca()
-    #         ax.set_ylim([0, 1])
-    #         plt.pause(0.05)
-        
-    #     except KeyboardInterrupt:
-    #         print("\n\n== Terminating ==")
-    #         break
 
     try:
         while True:
@@ -78,11 +64,11 @@ with serial.Serial(args.device, args.speed) as ser, open(outputFilePath, mode='w
                 errorString = "ERROR: BUFFER SIZE " + str(len(CurrentBuffer)) + ", FALLING BEHIND | " if len(CurrentBuffer) > 500 else ""
                 currRead = errorString + CurrentBuffer.split("\n", 1)[0]
                 CurrentBuffer = CurrentBuffer.split("\n", 1)[1]
-                # print(currRead)
+                print(currRead)
                 # PRINT AND FLUSH #
 
                 # SHOW PLOT #
-                if(len(CurrentBuffer) < 100): # Skip plotting when we start falling behind, plotting is humgery
+                if(ShowPlot and len(CurrentBuffer) < 100): # Skip plotting when we start falling behind, plotting is humgery
                     try:
                         data = {
                             'ax': int(currRead.split("\t")[0]),
