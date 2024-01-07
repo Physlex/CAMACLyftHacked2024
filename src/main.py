@@ -56,10 +56,10 @@ async def authenticate(userID):
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
     print("work!")
-    arduinoPort = "/dev/cu.usbmodem141401"
+    arduinoPort = "/dev/cu.usbmodem141301"
 
     await server_socket.connect(websocket)
-    with Serial(device=arduinoPort) as serial_port:
+    with Serial(arduinoPort) as serial_port:
         try:
             while True:
                 await asyncio.sleep(0.1)
