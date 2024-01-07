@@ -55,15 +55,12 @@ async def download():
 @app.post("/authenticate")
 async def authenticate(userID):
     path = 'static/data/'
+    user = 'user' + str(userID) + '.json'
     # list all files in that path and iterate through each file and find if they are indeed a file on that path
     files = [file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
 
-    # get rid of the file extension
-    for i in range(len(files)):
-        files[i] = files[i].rsplit('.')[0]
-    
     # if the user does not have a file a new one is created
-    if userID not in files:
+    if user not in files:
         newUser = User(userID)
         newUser.createUser()
         
