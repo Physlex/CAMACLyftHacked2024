@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,7 +13,7 @@ from pathlib import Path
 ### GLOBALS
 
 app = FastAPI()
-
+server_socket = SocketMan()
 
 ### API
 
@@ -53,8 +53,13 @@ async def authenticate(userID):
 
 @app.websocket("/connect")
 async def connect(websocket: WebSocket):
-    await websocket.accept()
-
+    await server_socket.connect(websocket)
+    try:
+        while True:
+            await server_socket.send_acceleration()
+    except WebSocketDisconnect:
+        await server_socket.disconnect()
+    pass
 
 ## MAIN
 
