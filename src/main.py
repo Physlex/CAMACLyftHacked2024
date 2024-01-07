@@ -43,7 +43,9 @@ async def download():
     new_user.deleteUser()
     return JSONResponse(data)
 
-
+@app.post("/authenticate")
+def authenticate(userID):
+    return JSONResponse(True)
 
 ## MAIN
 

@@ -29,19 +29,16 @@
     </style>
 </head>
 <body>
-
-    <div id="username-box">
-        <h2>Enter Your Username</h2>
-        <form id="username-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <br>
-            <button type="button" onclick="submitUsername()">Submit</button>
-        </form>
-    </div>
-    
-
     <div class="container">
+        <div id="username-box">
+            <h2>Enter Your Username</h2>
+            <form id="username-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username-input" name="username-input" required>
+                <button type="submit" id="username-form-btn">Submit</button>
+            </form>
+        </div>
+
         <div id="content" class="btn">
             <h1>API Documentation</h1>
             <button id="test-button" class="btn btn-primary">Click me</button>
@@ -54,31 +51,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Chart.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Your custom JS files -->
+
+    <!-- Custom -->
     <script src="static/js/index.js"></script>
     <script src="static/js/accel_chart.js"></script>
-    <script>
-        function submitUsername() {
-            // Get the entered username
-            var userName = document.getElementById('username').value;
-
-            // Make a POST request to the FastAPI endpoint
-            fetch('http://localhost:8000/process_variable', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ variable: userName }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-            
-        }
-    </script>
 </body>
 </html>
